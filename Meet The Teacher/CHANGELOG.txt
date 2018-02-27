@@ -1,0 +1,6 @@
+CHANGELOG
+=========
+0.0.01
+-------
+Added data structures
+Added dashboard functionality
