@@ -55,9 +55,30 @@ $actionRows[0]['categoryPermissionStudent'] = 'N';
 $actionRows[0]['categoryPermissionParent'] = 'Y';
 $actionRows[0]['categoryPermissionOther'] = 'N';
 
+$actionRows[1]['name'] = 'Manage Settings';
+$actionRows[1]['precedence'] = '0';
+$actionRows[1]['category'] = 'Admin';
+$actionRows[1]['description'] = 'Allows a privileged user to manage Meet The Teacher settings.';
+$actionRows[1]['URLList'] = 'settings_manage.php';
+$actionRows[1]['entryURL'] = 'settings_manage.php';
+$actionRows[1]['defaultPermissionAdmin'] = 'Y';
+$actionRows[1]['defaultPermissionTeacher'] = 'N';
+$actionRows[1]['defaultPermissionStudent'] = 'N';
+$actionRows[1]['defaultPermissionParent'] = 'N';
+$actionRows[1]['defaultPermissionSupport'] = 'N';
+$actionRows[1]['categoryPermissionStaff'] = 'Y';
+$actionRows[1]['categoryPermissionStudent'] = 'N';
+$actionRows[1]['categoryPermissionParent'] = 'N';
+$actionRows[1]['categoryPermissionOther'] = 'N';
+
+//Settings
+$gibbonSetting[0] = "INSERT INTO `gibbonSetting` (`gibbonSettingID` ,`scope` ,`name` ,`nameDisplay` ,`description` ,`value`) VALUES (NULL , 'Meet The Teacher', 'yearGroups', 'Year Groups', 'List of year group short names to match against, as a comma-separated list.', 'Y07,Y08,Y09,Y10,Y11,Y12,Y13');";
+$gibbonSetting[1] = "INSERT INTO `gibbonSetting` (`gibbonSettingID` ,`scope` ,`name` ,`nameDisplay` ,`description` ,`value`) VALUES (NULL , 'Meet The Teacher', 'text', 'Text', 'Introductory text used at the top of the dashboard entry', 'Login to Meet The Teacher, using the link below, to make consultation bookings:');";
+$gibbonSetting[2] = "INSERT INTO `gibbonSetting` (`gibbonSettingID` ,`scope` ,`name` ,`nameDisplay` ,`description` ,`value`) VALUES (NULL , 'Meet The Teacher', 'url', 'URL', 'URL to use for school\'s MTT installation.', 'https://school.meettheteacher.com');";
+
 //HOOKS
 $array = array();
 $array['sourceModuleName'] = 'Meet The Teacher';
 $array['sourceModuleAction'] = 'View Meet The Teacher';
 $array['sourceModuleInclude'] = 'hook_dashboard_meetTheTeacher.php';
-$hooks[0] = "INSERT INTO `gibbonHook` (`gibbonHookID`, `name`, `type`, `options`, gibbonModuleID) VALUES (NULL, 'MTT', 'Parental Dashboard', '".serialize($array)."', (SELECT gibbonModuleID FROM gibbonModule WHERE name='$name'));";
+$hooks[0] = "INSERT INTO `gibbonHook` (`gibbonHookID`, `name`, `type`, `options`, gibbonModuleID) VALUES (NULL, 'Meet The Teacher', 'Parental Dashboard', '".serialize($array)."', (SELECT gibbonModuleID FROM gibbonModule WHERE name='$name'));";
