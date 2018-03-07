@@ -24,11 +24,14 @@ function getMeetTheTeacher($connection2, $guid, $gibbonPersonIDChild = null)
     $url = getSettingByScope($connection2, 'Meet The Teacher', 'url');
     $text = getSettingByScope($connection2, 'Meet The Teacher', 'text');
     $yearGroups = getSettingByScope($connection2, 'Meet The Teacher', 'yearGroups');
+    $authenticateBy = getSettingByScope($connection2, 'Meet The Teacher', 'authenticateBy');
 
     // Get parent details to be passed to URL params
     $data = array('gibbonPersonID' => $_SESSION[$guid]['gibbonPersonID']);
-    $sql = "SELECT email AS parentEmailAddress, email AS parentEmailAddressConfirm
-            FROM gibbonPerson WHERE gibbonPersonID=:gibbonPersonID";
+    $sql = "SELECT email AS parentEmailAddress, email AS parentEmailAddressConfirm, meetTheTeacherLogin.loginCode as parentCode
+            FROM gibbonPerson 
+            LEFT JOIN meetTheTeacherLogin ON (gibbonPerson.gibbonPersonID=meetTheTeacherLogin.gibbonPersonID)
+            WHERE gibbonPerson.gibbonPersonID=:gibbonPersonID";
     $result = $connection2->prepare($sql);
     $result->execute($data);
 
@@ -46,14 +49,14 @@ function getMeetTheTeacher($connection2, $guid, $gibbonPersonIDChild = null)
         'gibbonSchoolYearID' => $_SESSION[$guid]['gibbonSchoolYearID'],
         'yearGroups' => $yearGroups,
     );
-    $sql = "SELECT gibbonPerson.gibbonPersonID, gibbonPerson.surname, gibbonPerson.preferredName, gibbonYearGroup.nameShort as yearGroupName, meetTheTeacherLogin.loginCode, dob
+    $sql = "SELECT gibbonPerson.gibbonPersonID, gibbonPerson.surname, gibbonPerson.preferredName, gibbonYearGroup.nameShort as yearGroupName, gibbonRollGroup.nameShort as rollGroupName, gibbonPerson.dob
         FROM gibbonFamilyChild
         JOIN gibbonFamily ON (gibbonFamilyChild.gibbonFamilyID=gibbonFamily.gibbonFamilyID)
         JOIN gibbonFamilyAdult ON (gibbonFamilyAdult.gibbonFamilyID=gibbonFamily.gibbonFamilyID)
         JOIN gibbonPerson ON (gibbonFamilyChild.gibbonPersonID=gibbonPerson.gibbonPersonID)
         JOIN gibbonStudentEnrolment ON (gibbonStudentEnrolment.gibbonPersonID=gibbonPerson.gibbonPersonID)
         JOIN gibbonYearGroup ON (gibbonYearGroup.gibbonYearGroupID=gibbonStudentEnrolment.gibbonYearGroupID)
-        LEFT JOIN meetTheTeacherLogin ON (gibbonFamilyAdult.gibbonPersonID=meetTheTeacherLogin.gibbonPersonID)
+        JOIN gibbonRollGroup ON (gibbonRollGroup.gibbonRollGroupID=gibbonStudentEnrolment.gibbonRollGroupID)
         WHERE gibbonStudentEnrolment.gibbonSchoolYearID=:gibbonSchoolYearID
         AND FIND_IN_SET(gibbonYearGroup.nameShort, :yearGroups)
         AND gibbonPerson.status='Full' AND (dateEnd IS NULL OR dateEnd>=:date)
@@ -74,10 +77,17 @@ function getMeetTheTeacher($connection2, $guid, $gibbonPersonIDChild = null)
     }
     else {
         $student = $result->fetch();
-        $params['parentCode'] = $student['loginCode'];
+        if ($authenticateBy == 'dob') {
+            $dob = new DateTime($student['dob']);
+            $params['DateOfBirthHelper_Day'] = $dob->format('j');
+            $params['DateOfBirthHelper_Month'] = $dob->format('n');
+            $params['DateOfBirthHelper_Year'] = $dob->format('Y');
+        } else {
+            $params['StudentClass'] = $student['rollGroupName'];
+        }
 
         $output .= '<br/>';
-        $output .= '<a href="'.$url.'?isPostback=true&'.http_build_query($params).'" target="_blank">';
+        $output .= '<a href="'.$url.'?isPostback=true&'.http_build_query($params).'" target="_blank" style="font-size:16px;">';
         $output .= formatName('', $student['preferredName'], $student['surname'], 'Student', false, true);
         $output .= ' - '.$student['yearGroupName'];
         $output .= '</a>';
@@ -89,4 +99,3 @@ function getMeetTheTeacher($connection2, $guid, $gibbonPersonIDChild = null)
 
     return $output;
 }
-?>
