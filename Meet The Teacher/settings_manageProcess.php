@@ -36,6 +36,7 @@ if (isActionAccessible($guid, $connection2, '/modules/Meet The Teacher/settings_
     $url = $_POST['url'];
     $text = $_POST['text'];
     $yearGroups = $_POST['yearGroups'];
+    $authenticateBy = $_POST['authenticateBy'];
 
     //Validate Inputs
     if ($url == '' or $text == '' or $yearGroups == '') {
@@ -66,6 +67,15 @@ if (isActionAccessible($guid, $connection2, '/modules/Meet The Teacher/settings_
         try {
             $data = array('value' => $yearGroups);
             $sql = "UPDATE gibbonSetting SET value=:value WHERE scope='Meet The Teacher' AND name='yearGroups'";
+            $result = $connection2->prepare($sql);
+            $result->execute($data);
+        } catch (PDOException $e) {
+            $fail = true;
+        }
+
+        try {
+            $data = array('value' => $authenticateBy);
+            $sql = "UPDATE gibbonSetting SET value=:value WHERE scope='Meet The Teacher' AND name='authenticateBy'";
             $result = $connection2->prepare($sql);
             $result->execute($data);
         } catch (PDOException $e) {

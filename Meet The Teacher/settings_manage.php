@@ -55,6 +55,11 @@ if (isActionAccessible($guid, $connection2, '/modules/Meet The Teacher/settings_
         $row->addLabel($setting['name'], __($setting['nameDisplay']))->description($setting['description']);
         $row->addTextarea($setting['name'])->setValue($setting['value']);
 
+    $authentication = array('rollGroup' => 'Child Class', 'dob' => 'Child Date of Birth');
+    $setting = getSettingByScope($connection2, 'Meet The Teacher', 'authenticateBy', true);
+    $row = $form->addRow();
+        $row->addLabel($setting['name'], __($setting['nameDisplay']))->description($setting['description']);
+        $row->addSelect($setting['name'])->fromArray($authentication)->selected($setting['value']);
 
     $row = $form->addRow();
         $row->addFooter();

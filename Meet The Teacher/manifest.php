@@ -25,7 +25,7 @@ $description = 'The Meet The Teacher module provides easy access for parents (vi
 $entryURL = 'meetTheTeacher_view.php';
 $type = 'Additional';
 $category = 'Other';
-$version = '0.0.02';
+$version = '0.0.03';
 $author = 'Sandra Kuipers & Ross Parker';
 $url = 'http://gibbonedu.org';
 
@@ -75,6 +75,7 @@ $actionRows[1]['categoryPermissionOther'] = 'N';
 $gibbonSetting[0] = "INSERT INTO `gibbonSetting` (`gibbonSettingID` ,`scope` ,`name` ,`nameDisplay` ,`description` ,`value`) VALUES (NULL , 'Meet The Teacher', 'yearGroups', 'Year Groups', 'List of year group short names to match against, as a comma-separated list.', 'Y07,Y08,Y09,Y10,Y11,Y12,Y13');";
 $gibbonSetting[1] = "INSERT INTO `gibbonSetting` (`gibbonSettingID` ,`scope` ,`name` ,`nameDisplay` ,`description` ,`value`) VALUES (NULL , 'Meet The Teacher', 'text', 'Text', 'Introductory text used at the top of the dashboard entry', 'Login to Meet The Teacher, using the link below, to make consultation bookings:');";
 $gibbonSetting[2] = "INSERT INTO `gibbonSetting` (`gibbonSettingID` ,`scope` ,`name` ,`nameDisplay` ,`description` ,`value`) VALUES (NULL , 'Meet The Teacher', 'url', 'URL', 'URL to use for school\'s MTT installation.', 'https://school.meettheteacher.com');";
+$gibbonSetting[3] = "INSERT INTO `gibbonSetting` (`gibbonSettingID` ,`scope` ,`name` ,`nameDisplay` ,`description` ,`value`) VALUES (NULL , 'Meet The Teacher', 'authenticateBy', 'Authenticate By', 'Which authentication method is configured in MTT.', 'rollGroup');";
 
 //HOOKS
 $array = array();

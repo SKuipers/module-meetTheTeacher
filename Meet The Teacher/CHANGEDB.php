@@ -13,4 +13,8 @@ $sql[$count][1] = '-- First version, nothing to update';
 $sql[$count][0] = '0.0.02';
 $sql[$count][1] = '';
 
-?>
+//v0.0.03
+++$count;
+$sql[$count][0] = '0.0.03';
+$sql[$count][1] = "INSERT INTO `gibbonSetting` (`gibbonSettingID` ,`scope` ,`name` ,`nameDisplay` ,`description` ,`value`) VALUES (NULL , 'Meet The Teacher', 'authenticateBy', 'Authenticate By', 'Which authentication method is configured in MTT.', 'rollGroup');";
+
