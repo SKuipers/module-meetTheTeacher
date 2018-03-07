@@ -28,8 +28,8 @@ function getMeetTheTeacher($connection2, $guid, $gibbonPersonIDChild = null)
 
     // Get parent details to be passed to URL params
     $data = array('gibbonPersonID' => $_SESSION[$guid]['gibbonPersonID']);
-    $sql = "SELECT email AS parentEmailAddress, email AS parentEmailAddressConfirm, meetTheTeacherLogin.loginCode as parentCode
-            FROM gibbonPerson 
+    $sql = "SELECT DISTINCT email AS parentEmailAddress, email AS parentEmailAddressConfirm, meetTheTeacherLogin.loginCode as parentCode
+            FROM gibbonPerson
             LEFT JOIN meetTheTeacherLogin ON (gibbonPerson.gibbonPersonID=meetTheTeacherLogin.gibbonPersonID)
             WHERE gibbonPerson.gibbonPersonID=:gibbonPersonID";
     $result = $connection2->prepare($sql);
@@ -38,6 +38,9 @@ function getMeetTheTeacher($connection2, $guid, $gibbonPersonIDChild = null)
     if ($result->rowCount() == 1) {
         $params = $result->fetch();
     } else {
+        $output .= "<div class='error'>";
+        $output .= __($guid, 'There are no records to display.');
+        $output .= '</div>';
         return '';
     }
 
