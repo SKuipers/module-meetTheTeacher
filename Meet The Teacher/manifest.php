@@ -25,7 +25,7 @@ $description = 'The Meet The Teacher module provides easy access for parents (vi
 $entryURL = 'meetTheTeacher_view.php';
 $type = 'Additional';
 $category = 'Other';
-$version = '0.0.01';
+$version = '0.0.02';
 $author = 'Sandra Kuipers & Ross Parker';
 $url = 'http://gibbonedu.org';
 

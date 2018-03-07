@@ -8,9 +8,9 @@ $count = 0;
 $sql[$count][0] = '0.0.01';
 $sql[$count][1] = '-- First version, nothing to update';
 
-//v1.0.01
-// ++$count;
-// $sql[$count][0] = '1.0.01';
-// $sql[$count][1] = '';
+//v0.0.02
+++$count;
+$sql[$count][0] = '0.0.02';
+$sql[$count][1] = '';
 
 ?>

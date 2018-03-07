@@ -1,5 +1,10 @@
 CHANGELOG
 =========
+0.0.02
+------
+Improved MTT link so that it actually works!
+
+
 0.0.01
 -------
 Added data structures

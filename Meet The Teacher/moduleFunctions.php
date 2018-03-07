@@ -27,7 +27,7 @@ function getMeetTheTeacher($connection2, $guid, $gibbonPersonIDChild = null)
 
     // Get parent details to be passed to URL params
     $data = array('gibbonPersonID' => $_SESSION[$guid]['gibbonPersonID']);
-    $sql = "SELECT title as parentTitle, preferredName as ParentFirstname, surname as ParentSurname, email AS ParentEmail, email AS ParentConfirmEmail
+    $sql = "SELECT email AS parentEmailAddress, email AS parentEmailAddressConfirm
             FROM gibbonPerson WHERE gibbonPersonID=:gibbonPersonID";
     $result = $connection2->prepare($sql);
     $result->execute($data);
@@ -74,22 +74,17 @@ function getMeetTheTeacher($connection2, $guid, $gibbonPersonIDChild = null)
     }
     else {
         $student = $result->fetch();
-        $params['StudentFirstname'] = $student['preferredName'];
-        $params['StudentSurname'] = $student['surname'];
-        $params['ParentLoginCode'] = $student['loginCode'];
-        $params['DateOfBirthHelper.Day'] = substr($student['dob'], 8, 2);
-        $params['DateOfBirthHelper.Month'] = substr($student['dob'], 5, 2);
-        $params['DateOfBirthHelper.Year'] = substr($student['dob'], 0, 4);
+        $params['parentCode'] = $student['loginCode'];
 
         $output .= '<br/>';
-        $output .= '<a href="'.$url.'?'.http_build_query($params).'" target="_blank">';
+        $output .= '<a href="'.$url.'?isPostback=true&'.http_build_query($params).'" target="_blank">';
         $output .= formatName('', $student['preferredName'], $student['surname'], 'Student', false, true);
         $output .= ' - '.$student['yearGroupName'];
         $output .= '</a>';
         $output .= '<br/><br/>';
     }
 
-    $output .= '<p class="noMargin emphasis"><b>'.__('Note').':</b> '.__('Please do not share the bookings URL with anyone, it contains a unique login code for your student.').'</p>';
+    $output .= '<p class="noMargin emphasis"><b>'.__('Note').':</b> '.__('Please do not share the bookings URL with anyone, as it contains a unique login code for your student.').'</p>';
     $output .= '</div><br/>';
 
     return $output;
