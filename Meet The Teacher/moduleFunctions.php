@@ -94,7 +94,7 @@ function getMeetTheTeacher($connection2, $guid, $gibbonPersonIDChild = null)
         $output .= '<br/><br/>';
     }
 
-    $output .= '<p class="noMargin emphasis"><b>'.__('Note').':</b> '.__('Please do not share the bookings URL with anyone, as it contains a unique login code for your student.').'</p>';
+    $output .= '<p class="noMargin emphasis"><b>'.__('Note').':</b> '.__('Please do not share the bookings URL with anyone, as it contains a unique login code.').'</p>';
     $output .= '</div><br/>';
 
     return $output;

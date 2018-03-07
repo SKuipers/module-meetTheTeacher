@@ -1,5 +1,10 @@
 CHANGELOG
 =========
+
+0.0.03
+------
+Added authentication option to settings
+
 0.0.02
 ------
 Improved MTT link so that it actually works!
