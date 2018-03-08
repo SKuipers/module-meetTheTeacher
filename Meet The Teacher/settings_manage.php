@@ -50,6 +50,11 @@ if (isActionAccessible($guid, $connection2, '/modules/Meet The Teacher/settings_
         $row->addLabel($setting['name'], __($setting['nameDisplay']))->description($setting['description']);
         $row->addTextarea($setting['name'])->setValue($setting['value']);
 
+    $setting = getSettingByScope($connection2, 'Meet The Teacher', 'textUnavailable', true);
+    $row = $form->addRow();
+        $row->addLabel($setting['name'], __($setting['nameDisplay']))->description($setting['description']);
+        $row->addTextarea($setting['name'])->setValue($setting['value']);
+
     $setting = getSettingByScope($connection2, 'Meet The Teacher', 'yearGroups', true);
     $row = $form->addRow();
         $row->addLabel($setting['name'], __($setting['nameDisplay']))->description($setting['description']);

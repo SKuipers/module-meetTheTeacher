@@ -23,6 +23,7 @@ function getMeetTheTeacher($connection2, $guid, $gibbonPersonIDChild = null)
 
     $url = getSettingByScope($connection2, 'Meet The Teacher', 'url');
     $text = getSettingByScope($connection2, 'Meet The Teacher', 'text');
+    $textUnavailable = getSettingByScope($connection2, 'Meet The Teacher', 'textUnavailable');
     $yearGroups = getSettingByScope($connection2, 'Meet The Teacher', 'yearGroups');
     $authenticateBy = getSettingByScope($connection2, 'Meet The Teacher', 'authenticateBy');
 
@@ -38,10 +39,10 @@ function getMeetTheTeacher($connection2, $guid, $gibbonPersonIDChild = null)
     if ($result->rowCount() == 1) {
         $params = $result->fetch();
     } else {
-        $output .= "<div class='error'>";
-        $output .= __($guid, 'There are no records to display.');
+        $output .= "<div class='warning'>";
+        $output .= $textUnavailable;
         $output .= '</div>';
-        return '';
+        return $output;
     }
 
     // Get student details for this parent
@@ -70,15 +71,14 @@ function getMeetTheTeacher($connection2, $guid, $gibbonPersonIDChild = null)
     $result = $connection2->prepare($sql);
     $result->execute($data);
 
-    $output .= '<div class="message" style="padding-top: 14px">';
-    $output .= "<b>".__($text).'</b><br/>';
-
     if ($result->rowCount() != 1) {
-        $output .= "<div class='error'>";
-        $output .= __($guid, 'There are no records to display.');
+        $output .= "<div class='warning'>";
+        $output .= $textUnavailable;
         $output .= '</div>';
-    }
-    else {
+    } else {
+        $output .= '<div class="message" style="padding-top: 14px">';
+        $output .= "<b>".__($text).'</b><br/>';
+
         $student = $result->fetch();
         if ($authenticateBy == 'dob') {
             $dob = new DateTime($student['dob']);
@@ -95,10 +95,10 @@ function getMeetTheTeacher($connection2, $guid, $gibbonPersonIDChild = null)
         $output .= ' - '.$student['yearGroupName'];
         $output .= '</a>';
         $output .= '<br/><br/>';
-    }
 
-    $output .= '<p class="noMargin emphasis"><b>'.__('Note').':</b> '.__('Please do not share the bookings URL with anyone, as it contains a unique login code.').'</p>';
-    $output .= '</div><br/>';
+        $output .= '<p class="noMargin emphasis"><b>'.__('Note').':</b> '.__('Please do not share the bookings URL with anyone, as it contains a unique login code.').'</p>';
+        $output .= '</div><br/>';
+    }
 
     return $output;
 }
