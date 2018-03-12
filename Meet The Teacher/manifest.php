@@ -21,21 +21,17 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 //Basic variables
 $name = 'Meet The Teacher';
-$description = 'The Meet The Teacher module provides easy access for parents (via Gibbon\'s Parent Dashboard) to the online Meet The Teacher service.';
+$description = 'Provides an API for data syncing, and and interface for acess, to making using Gibbon and the online Meet The Teacher service easy.';
 $entryURL = 'meetTheTeacher_view.php';
 $type = 'Additional';
 $category = 'Other';
 $version = '0.0.03';
-$author = 'Sandra Kuipers & Ross Parker';
+$author = 'Jim Speir, Sandra Kuipers & Ross Parker';
 $url = 'http://gibbonedu.org';
 
 //Module tables
-$moduleTables[0] = "CREATE TABLE `meetTheTeacherLogin` (
-  `meetTheTeacherLoginID` int(10) UNSIGNED ZEROFILL NOT NULL AUTO_INCREMENT,
-  `gibbonPersonID` int(10) UNSIGNED ZEROFILL NOT NULL,
-  `loginCode` varchar(9) COLLATE utf8_unicode_ci NOT NULL,
-  PRIMARY KEY (`meetTheTeacherLoginID`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
+$moduleTables[0] = "CREATE TABLE `meetTheTeacherLogin` (`meetTheTeacherLoginID` int(10) UNSIGNED ZEROFILL NOT NULL AUTO_INCREMENT, `gibbonPersonID` int(10) UNSIGNED ZEROFILL NOT NULL,`loginCode` varchar(9) COLLATE utf8_unicode_ci NOT NULL,PRIMARY KEY (`meetTheTeacherLoginID`)) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
+$moduleTables[0] = "CREATE TABLE `meetTheTeacherCustomGroups` (`ID` int(11) NOT NULL AUTO_INCREMENT, `TeacherID` int(10) unsigned zerofill NOT NULL, `StudentID` int(10) unsigned zerofill NOT NULL, `GroupName` varchar(255) NOT NULL, `GroupID` int(11) DEFAULT NULL, PRIMARY KEY (`ID`), KEY `TeacherID` (`TeacherID`), KEY `StudentID` (`StudentID`), KEY `GroupID` (`GroupID`)) ENGINE=MyISAM AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb4;";
 
 //Action rows
 $actionRows[0]['name'] = 'View Meet The Teacher';
@@ -76,6 +72,12 @@ $gibbonSetting[0] = "INSERT INTO `gibbonSetting` (`gibbonSettingID` ,`scope` ,`n
 $gibbonSetting[1] = "INSERT INTO `gibbonSetting` (`gibbonSettingID` ,`scope` ,`name` ,`nameDisplay` ,`description` ,`value`) VALUES (NULL , 'Meet The Teacher', 'text', 'Text', 'Introductory text used at the top of the dashboard entry', 'Login to Meet The Teacher, using the link below, to make consultation bookings:');";
 $gibbonSetting[2] = "INSERT INTO `gibbonSetting` (`gibbonSettingID` ,`scope` ,`name` ,`nameDisplay` ,`description` ,`value`) VALUES (NULL , 'Meet The Teacher', 'url', 'URL', 'URL to use for school\'s MTT installation.', 'https://school.meettheteacher.com');";
 $gibbonSetting[3] = "INSERT INTO `gibbonSetting` (`gibbonSettingID` ,`scope` ,`name` ,`nameDisplay` ,`description` ,`value`) VALUES (NULL , 'Meet The Teacher', 'authenticateBy', 'Authenticate By', 'Which authentication method is configured in MTT.', 'rollGroup');";
+$gibbonSetting[4] = "INSERT INTO `gibbonSetting` (`gibbonSettingID` ,`scope` ,`name` ,`nameDisplay` ,`description` ,`value`) VALUES (NULL , 'Meet The Teacher', 'apiKey', 'API Key', 'Long, random string controlling access to API.', '');";
+$gibbonSetting[5] = "INSERT INTO `gibbonSetting` (`gibbonSettingID` ,`scope` ,`name` ,`nameDisplay` ,`description` ,`value`) VALUES (NULL , 'Meet The Teacher', 'allowedIPs', 'Allowed IP Address', 'Comma-seperated list of IP addresses with permission to access the API.', '');";
+$gibbonSetting[6] = "INSERT INTO `gibbonSetting` (`gibbonSettingID` ,`scope` ,`name` ,`nameDisplay` ,`description` ,`value`) VALUES (NULL , 'Meet The Teacher', 'lsTeacherRole', 'LS Teacher Role', 'User role which designates who the learning support teachers in school are. Leave blank to show all teacher roles on the API.', '');";
+$gibbonSetting[7] = "INSERT INTO `gibbonSetting` (`gibbonSettingID` ,`scope` ,`name` ,`nameDisplay` ,`description` ,`value`) VALUES (NULL , 'Meet The Teacher', 'lsIgnoreClasses', 'Ignore Classes', 'Set whether teachers only show on the API if they have an assigned student or simply assign all teachers with the specified role to all children with individual needs.', '');";
+$gibbonSetting[8] = "INSERT INTO `gibbonSetting` (`gibbonSettingID` ,`scope` ,`name` ,`nameDisplay` ,`description` ,`value`) VALUES (NULL , 'Meet The Teacher', 'version', 'API Version', 'Currently installed version of the Meet The Teacher', '" . $version . "');";
+
 
 //HOOKS
 $array = array();

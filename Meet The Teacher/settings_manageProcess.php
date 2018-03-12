@@ -33,18 +33,76 @@ if (isActionAccessible($guid, $connection2, '/modules/Meet The Teacher/settings_
     header("Location: {$URL}");
 } else {
     //Proceed!
+    $apiKey = $_POST['apiKey'];
+    $allowedIPs = $_POST['allowedIPs'];
+    $lsTeacherRole = $_POST['lsTeacherRole'];
+    $lsIgnoreClasses = 0;
+    if(isset($_POST['lsIgnoreClasses']))
+    {
+      $lsIgnoreClasses = $_POST['lsIgnoreClasses'] ? 1 : 0;
+    }
+    $modVer = '';
+    if(isset($_POST['apiVersion']))
+    {
+      $modVer = $_POST['apiVersion'];
+    }
     $url = $_POST['url'];
     $text = $_POST['text'];
     $yearGroups = $_POST['yearGroups'];
     $authenticateBy = $_POST['authenticateBy'];
 
     //Validate Inputs
-    if ($url == '' or $text == '' or $yearGroups == '') {
+    if ($apiKey == '' or $allowedIPs == '' or $url == '' or $text == '' or $yearGroups == '') {
         $URL .= '&return=error3';
         header("Location: {$URL}");
     } else {
         //Write to database
         $fail = false;
+
+        try {
+            $data = array('apiKey' => $apiKey);
+            $sql = "UPDATE gibbonSetting SET value=:apiKey WHERE scope='Meet The Teacher' AND name='apiKey'";
+            $result = $connection2->prepare($sql);
+            $result->execute($data);
+        } catch (PDOException $e) {
+            $fail = true;
+        }
+
+        try {
+            $data = array('allowedIPs' => $allowedIPs);
+            $sql = "UPDATE gibbonSetting SET value=:allowedIPs WHERE scope='Meet The Teacher' AND name='allowedIPs'";
+            $result = $connection2->prepare($sql);
+            $result->execute($data);
+        } catch (PDOException $e) {
+            $fail = true;
+        }
+
+        try {
+            $data = array('lsTeacherRole' => $lsTeacherRole);
+            $sql = "UPDATE gibbonSetting SET value=:lsTeacherRole WHERE scope='Meet The Teacher' AND name='lsTeacherRole'";
+            $result = $connection2->prepare($sql);
+            $result->execute($data);
+        } catch (PDOException $e) {
+            $fail = true;
+        }
+
+        try {
+            $data = array('lsIgnoreClasses' => $lsIgnoreClasses);
+            $sql = "UPDATE gibbonSetting SET value=:lsIgnoreClasses WHERE scope='Meet The Teacher' AND name='lsIgnoreClasses'";
+            $result = $connection2->prepare($sql);
+            $result->execute($data);
+        } catch (PDOException $e) {
+            $fail = true;
+        }
+
+        try{
+          $data = array('version' => $modVer);
+          $sql = "UPDATE gibbonSetting set value = :version WHERE scope = 'Meet The Teacher' AND name = 'version'";
+          $result = $connection2->prepare($sql);
+          $result->execute($data);
+        } catch(PDOException $e) {
+          $fail = true;
+        }
 
         try {
             $data = array('value' => $url);

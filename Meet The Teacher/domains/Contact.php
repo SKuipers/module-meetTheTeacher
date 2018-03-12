@@ -1,4 +1,5 @@
 <?php
+
 /*
 Gibbon, Flexible & Open School System
 Copyright (C) 2010, Ross Parker
@@ -17,7 +18,16 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-/**
- * Sets version information.
- */
-$moduleVersion = '1.0.00';
+class Contact extends Person
+{
+	//Just here in case we add something here later
+	function __construct()
+	{
+		$this->Callable = false;
+		$this->Textable = false;
+		$this->Mailable = true;
+	}
+
+}
+
+?>

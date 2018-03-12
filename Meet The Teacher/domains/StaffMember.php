@@ -1,4 +1,5 @@
 <?php
+
 /*
 Gibbon, Flexible & Open School System
 Copyright (C) 2010, Ross Parker
@@ -17,7 +18,18 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-/**
- * Sets version information.
- */
-$moduleVersion = '1.0.00';
+class StaffMember extends Person
+{
+	public $Type;
+	public $StaffID;
+
+	function __construct()
+	{
+		//Staff emails should always come through. No telephone number should be used
+		$this->Callable = false;
+		$this->Textable = false;
+		$this->Mailable = true;
+	}
+}
+
+?>

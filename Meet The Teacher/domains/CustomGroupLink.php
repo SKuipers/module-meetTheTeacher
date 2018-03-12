@@ -1,4 +1,5 @@
 <?php
+
 /*
 Gibbon, Flexible & Open School System
 Copyright (C) 2010, Ross Parker
@@ -17,7 +18,45 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-/**
- * Sets version information.
- */
-$moduleVersion = '1.0.00';
+class CustomGroupLink extends GroupLink
+{
+
+	public $TeacherID;
+	public $StudentID;
+	public $GroupName;
+	public $GroupID;
+
+	
+	public function __construct(){}
+
+	public function FromVariables($id,$tid,$sid,$gn,$gid)
+	{
+		if($tid != null && $sid != null && $gn != null && $gid != null)
+		{
+			if($id != null)
+			{
+				$this->ID = $id;
+			}
+			$this->TeacherID = $tid;
+			$this->StudentID = $sid;
+			$this->GroupName = $gn;
+			$this->GroupID = $gid;
+		}
+
+	}
+	
+	public function Validate()
+	{
+		if($this->TeacherID != null && $this->StudentID != null && $this->GroupName != null && $this->GroupID != null)
+		{
+			return true;
+		}
+		else
+		{
+			var_dump($this);
+			return false;
+		}
+	}
+}
+
+?>

@@ -1,5 +1,8 @@
 CHANGELOG
 =========
+1.0.00
+------
+Rolled in Jim Speir's Gibbon API module for MTT
 
 0.0.03
 ------

@@ -1,4 +1,5 @@
 <?php
+
 /*
 Gibbon, Flexible & Open School System
 Copyright (C) 2010, Ross Parker
@@ -17,7 +18,36 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-/**
- * Sets version information.
- */
-$moduleVersion = '1.0.00';
+class Person
+{
+	public $PersonID;
+	public $Title;
+	public $Forename;
+	public $Surname;
+	public $Username;
+	public $Email;
+	public $Telephone;
+	public $Mailable;
+	public $Textable;
+	public $Callable;
+	public $Status;
+
+	public function isMailImportable()
+	{
+		if($Mailable == true) {return true;} else { return false;}
+	}
+
+	public function isTelephoneImportable()
+	{
+		if($Callable == true && $Textable == true)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+}
+
+?>

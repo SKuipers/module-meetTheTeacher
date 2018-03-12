@@ -39,6 +39,33 @@ if (isActionAccessible($guid, $connection2, '/modules/Meet The Teacher/settings_
     $form = Form::create('settings_manage', $_SESSION[$guid]['absoluteURL'].'/modules/'.$_SESSION[$guid]['module'].'/settings_manageProcess.php');
 
     $form->addHiddenValue('address', $_SESSION[$guid]['address']);
+    $form->addHiddenValue('apiVersion', $moduleVersion);
+
+    $row = $form->addRow()->addHeading(__('API Settings'));
+
+    $setting = getSettingByScope($connection2, 'Meet The Teacher', 'apiKey', true);
+    $row = $form->addRow();
+        $row->addLabel($setting['name'], __($setting['nameDisplay']))->description(__($setting['description']));
+        $row->addTextField($setting['name'])->setValue($setting['value'])->isRequired();
+
+    $setting = getSettingByScope($connection2, 'Meet The Teacher', 'allowedIPs', true);
+    $row = $form->addRow();
+        $row->addLabel($setting['name'], __($setting['nameDisplay']))->description(__($setting['description']));
+        $row->addTextArea($setting['name'])->setValue($setting['value'])->isRequired();
+
+    $data = array();
+    $sql = "SELECT gibbonRoleID as value, name FROM gibbonRole WHERE category='Staff' ORDER BY name";
+    $setting = getSettingByScope($connection2, 'Meet The Teacher', 'lsTeacherRole', true);
+    $row = $form->addRow();
+        $row->addLabel($setting['name'], __($setting['nameDisplay']))->description(__($setting['description']));
+        $row->addSelect($setting['name'])->fromQuery($pdo, $sql, $data)->selected($setting['value'])->placeholder();
+
+    $setting = getSettingByScope($connection2, 'Meet The Teacher', 'lsIgnoreClasses',true);
+    $row = $form->addRow();
+        $row->addLabel($setting['name'],__($setting['nameDisplay']))->description(__($setting['description']));
+        $row->addCheckbox($setting['name'])->checked($setting['value'] == "1" ? "on" : "off");
+
+    $row = $form->addRow()->addHeading(__('Parent Dashboard'));
 
     $setting = getSettingByScope($connection2, 'Meet The Teacher', 'url', true);
     $row = $form->addRow();

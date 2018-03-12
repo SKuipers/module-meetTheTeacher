@@ -17,7 +17,11 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-/**
- * Sets version information.
- */
-$moduleVersion = '1.0.00';
+include $_SERVER['DOCUMENT_ROOT'] . '/config.php';
+include $_SERVER['DOCUMENT_ROOT'] . '/functions.php';
+include '../controllers/CustomGroupController.php';
+
+$cgc = new CustomGroupController( new PDO("mysql:host=" . $databaseServer . ";dbname=" . $databaseName . ";charset=utf8", $databaseUsername, $databasePassword));
+print json_encode($cgc->GetGroupById($_POST['id']));
+
+?>

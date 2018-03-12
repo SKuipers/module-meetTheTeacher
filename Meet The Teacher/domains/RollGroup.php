@@ -1,4 +1,5 @@
 <?php
+
 /*
 Gibbon, Flexible & Open School System
 Copyright (C) 2010, Ross Parker
@@ -17,7 +18,15 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-/**
- * Sets version information.
- */
-$moduleVersion = '1.0.00';
+class RollGroup
+{
+	public $StudentID;
+	public $RollGroupID;
+	public $RollGroupName;
+	public $RollGroupShortName;
+	public $TeacherID1;
+	public $TeacherID2;
+	public $TeacherID3;
+}
+
+?>

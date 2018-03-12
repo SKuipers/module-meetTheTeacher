@@ -17,7 +17,12 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-/**
- * Sets version information.
- */
-$moduleVersion = '1.0.00';
+
+interface PESAPIController
+{
+	public function GetAll();
+	public function GetByID($id);
+//	public function Add($dataArr);
+}
+
+?>
