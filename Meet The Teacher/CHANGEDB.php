@@ -42,8 +42,3 @@ INSERT INTO `gibbonSetting` (`gibbonSettingID` ,`scope` ,`name` ,`nameDisplay` ,
 ++$count;
 $sql[$count][0] = '1.0.01';
 $sql[$count][1] = "";
-
-//v1.1.00
-++$count;
-$sql[$count][0] = '1.1.00';
-$sql[$count][1] = "";
