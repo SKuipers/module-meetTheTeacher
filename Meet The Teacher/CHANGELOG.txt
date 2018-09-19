@@ -1,8 +1,12 @@
 CHANGELOG
 =========
-1.1.01
+1.1.02
 ------
 improvements in the process to create the module tables
+
+1.1.01
+------
+Removed class reportable check, so all classes show up
 
 1.1.00
 ------
