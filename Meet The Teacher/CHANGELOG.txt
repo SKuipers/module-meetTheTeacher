@@ -1,5 +1,9 @@
 CHANGELOG
 =========
+1.1.03
+------
+Reintroduced student reportable check, for better class list filtering
+
 1.1.02
 ------
 improvements in the process to create the module tables

@@ -40,6 +40,7 @@ class ClassController implements PESAPIController
 				student.status = 'Full'
 				AND teacher.status='Full'
 				AND gibbonSchoolYear.status='Current'
+				AND s_ccp.reportable = 'Y' 
 		;",
 
 		"GetByID" => "
