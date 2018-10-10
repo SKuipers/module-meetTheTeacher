@@ -17,16 +17,6 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-include 'classes/DatasetManager.php';
-include 'classes/Person.php';
-include 'classes/StaffMemeber.php';
-include 'classes/Student.php';
-include 'classes/Contact.php';
-include 'classes/ClassLink.php';
-include 'classes/Class.php';
-include 'classes/FamilyLink.php';
-include 'classes/RollGroup.php';
-
 function getMeetTheTeacher($connection2, $guid, $gibbonPersonIDChild = null)
 {
     $output = '';
