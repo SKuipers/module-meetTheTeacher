@@ -1,4 +1,6 @@
 <?php
+
+use Gibbon\Forms\Form;
 /*
 Gibbon, Flexible & Open School System
 Copyright (C) 2010, Ross Parker
@@ -76,10 +78,75 @@ function getMeetTheTeacher($connection2, $guid, $gibbonPersonIDChild = null)
         $output .= $textUnavailable;
         $output .= '</div>';
     } else {
+        $student = $result->fetch();
+
+        // Check for form submission
+        if (isset($_POST['translatorLanguage'])) {
+            $data = [
+                'gibbonPersonID' => $_SESSION[$guid]['gibbonPersonID'],
+                'translatorLanguage' => $_POST['translatorLanguage'],
+                'translatorRequired' => $_POST['translatorLanguage'] != 'None' ? 'Y' : 'N',
+            ];
+            $sql = "UPDATE meetTheTeacherTranslator SET translatorLanguage=:translatorLanguage, translatorRequired=:translatorRequired, lastUpdated=CURRENT_TIMESTAMP() WHERE gibbonPersonID=:gibbonPersonID";
+
+            $result = $connection2->prepare($sql);
+            $result->execute($data);
+        }
+
+        // Check for translator
+        $data = ['gibbonPersonID' => $_SESSION[$guid]['gibbonPersonID']];
+        $sql = "SELECT * FROM meetTheTeacherTranslator WHERE gibbonPersonID=:gibbonPersonID AND translatorRequired='Y' LIMIT 1";
+
+        $result = $connection2->prepare($sql);
+        $result->execute($data);
+
+        if ($result->rowCount() == 1) {
+            $translatorRequest = $result->fetch();
+
+            $languages = [
+                'None'            => 'No Translator Required 無需預約翻譯',
+                'Cantonese 廣東話' => 'Cantonese 廣東話',
+                'Mandarin 普通話'  => 'Mandarin 普通話',
+                'Portuguese 葡語'  => 'Portuguese 葡語',
+                'Korean 韓語'      => 'Korean 韓語',
+            ];
+
+            if (!empty($translatorRequest['translatorLanguage']) && isset($languages[$translatorRequest['translatorLanguage']])) {
+                $output .= "<div class='success'>";
+                $output .= '<h2 style="margin-top:0;">Request Translators 預約翻譯</h2>';
+
+                $language = $languages[$translatorRequest['translatorLanguage']];
+
+                $output .= "<p>Thank you. We've received your request for a ".$language." translator. The school will try their best to accommodate your request.</p>";
+                $output .= "<p>感謝。 預約翻譯 「".$language."」。學校會儘量作出安排。</p>";
+                $output .= '</div>';
+            } else {
+
+                $output .= "<div class='warning'>";
+                $output .= '<h2 style="margin-top:0;">Request Translators 預約翻譯</h2>';
+
+                $output .= '<p>TIS is asking parents to please bring along a translator if you need one. If you are unable to arrange for a translator to accompany you, please select a language below. The school will try their best to accommodate your request but this cannot be guaranteed.</p>';
+
+                $output .= '<p style="text-align: left;">若有需要，家長可自行帶同翻譯人員與老師面談。若 閣下無法安排翻譯人員，請點擊「translator required」提出要求，學校會儘量作出安排。</p>';
+                
+                $form = Form::create('translationRequest', '')->setClass('blank fullWidth');
+                $form->addHiddenValue('address', $_SESSION[$guid]['address']);
+
+                $row = $form->addRow();
+                    $row->addLabel('translatorLanguage', 'Request Translators 預約翻譯');
+                    $row->addRadio('translatorLanguage')->fromArray($languages)->checked($translatorRequest['translatorLanguage'] ?? null);
+
+                $row = $form->addRow()->addSubmit();
+
+                $output .= $form->getOutput();
+                $output .= '</div>';
+            }
+        }
+
         $output .= '<div class="message" style="padding-top: 14px">';
         $output .= "<b>".__($text).'</b><br/>';
 
-        $student = $result->fetch();
+        
         if ($authenticateBy == 'dob') {
             $dob = new DateTime($student['dob']);
             $params['DateOfBirthHelper_Day'] = $dob->format('j');

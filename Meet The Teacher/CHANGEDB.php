@@ -67,3 +67,16 @@ $sql[$count][1] = "";
 ++$count;
 $sql[$count][0] = '1.1.04';
 $sql[$count][1] = "";
+
+//v1.1.05
+++$count;
+$sql[$count][0] = '1.1.05';
+$sql[$count][1] = "CREATE TABLE `meetTheTeacherTranslator` (
+    `meetTheTeacherTranslatorID` int(10) UNSIGNED ZEROFILL NOT NULL AUTO_INCREMENT,
+    `gibbonPersonID` int(10) UNSIGNED ZEROFILL NOT NULL,
+    `translatorRequired` ENUM('Y','N') NOT NULL DEFAULT 'N' COLLATE utf8_unicode_ci NOT NULL,
+    `translatorLanguage` VARCHAR(60) NULL,
+    `lastUpdated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (`meetTheTeacherTranslatorID`)
+  
+  ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;end";
