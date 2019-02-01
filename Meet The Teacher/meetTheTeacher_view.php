@@ -23,16 +23,14 @@ include './modules/'.$_SESSION[$guid]['module'].'/moduleFunctions.php';
 if (isActionAccessible($guid, $connection2, '/modules/Meet The Teacher/meetTheTeacher_view.php') == false) {
     //Acess denied
     echo "<div class='error'>";
-    echo __($guid, 'You do not have access to this action.');
+    echo __('You do not have access to this action.');
     echo '</div>';
 } else {
     //Proceed!
-    echo "<div class='trail'>";
-    echo "<div class='trailHead'><a href='".$_SESSION[$guid]['absoluteURL']."'>".__($guid, 'Home')."</a> > <a href='".$_SESSION[$guid]['absoluteURL'].'/index.php?q=/modules/'.getModuleName($_GET['q']).'/'.getModuleEntry($_GET['q'], $connection2, $guid)."'>".__($guid, getModuleName($_GET['q']))."</a> > </div><div class='trailEnd'>".__($guid, 'View Meet The Teacher').'</div>';
-    echo '</div>';
+    $page->breadcrumbs->add(__('View Meet The Teacher'));
 
     echo '<h2>';
-    echo __($guid, 'Meet The Teacher');
+    echo __('Meet The Teacher');
     echo '</h2>';
     echo getMeetTheTeacher($connection2, $guid);
 }

@@ -22,13 +22,11 @@ use Gibbon\Forms\Form;
 if (isActionAccessible($guid, $connection2, '/modules/Meet The Teacher/settings_manage.php') == false) {
     //Acess denied
     echo "<div class='error'>";
-    echo __($guid, 'You do not have access to this action.');
+    echo __('You do not have access to this action.');
     echo '</div>';
 } else {
     //Proceed!
-    echo "<div class='trail'>";
-    echo "<div class='trailHead'><a href='".$_SESSION[$guid]['absoluteURL']."'>".__($guid, 'Home')."</a> > <a href='".$_SESSION[$guid]['absoluteURL'].'/index.php?q=/modules/'.getModuleName($_GET['q']).'/'.getModuleEntry($_GET['q'], $connection2, $guid)."'>".__($guid, getModuleName($_GET['q']))."</a> > </div><div class='trailEnd'>".__($guid, 'Manage Settings').'</div>';
-    echo '</div>';
+    $page->breadcrumbs->add(__('Manage Settings'));
 
     if (isset($_GET['return'])) {
         returnProcess($guid, $_GET['return'], null, null);
@@ -37,7 +35,9 @@ if (isActionAccessible($guid, $connection2, '/modules/Meet The Teacher/settings_
     $form = Form::create('settings_manage', $_SESSION[$guid]['absoluteURL'].'/modules/'.$_SESSION[$guid]['module'].'/settings_manageProcess.php');
 
     $form->addHiddenValue('address', $_SESSION[$guid]['address']);
-    $form->addHiddenValue('apiVersion', $moduleVersion);
+    
+    $setting = getSettingByScope($connection2, 'Meet The Teacher', 'version', true);
+    $form->addHiddenValue('apiVersion', $setting['value']);
 
     $row = $form->addRow()->addHeading(__('API Settings'));
 

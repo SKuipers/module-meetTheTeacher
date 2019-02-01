@@ -1,5 +1,10 @@
 CHANGELOG
 =========
+1.1.05
+------
+Refactored Breadcrumbs for version >= v17
+Set value for input 'apiVersion' in Manage Settings
+
 1.1.04
 ------
 Fixed a file include error in the Parent dashboard
@@ -10,7 +15,7 @@ Reintroduced student reportable check, for better class list filtering
 
 1.1.02
 ------
-improvements in the process to create the module tables
+Improvements in the process to create the module tables
 
 1.1.01
 ------
